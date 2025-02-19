@@ -20,4 +20,5 @@ This repository contains the PyTorch implementation of the paper: [3-D Computed 
 <img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/result1.png" width="800"/>   
 <img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/result2.png" width="800"/>   
 <img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/result3.png" width="800"/>   
+<img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/result4.png" width="800"/>   
 </div>
