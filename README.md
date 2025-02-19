@@ -5,7 +5,7 @@ This repository contains the PyTorch implementation of the paper: [3-D Computed 
 ***************************************************************************
 ### Illustration
 <div align=center>
-<img src="https://github.com/YuhangLiu98/SDCNN/blob/main/img/SDCNN.png" width="800"/> 
+<img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/SART-SR.png" width="800"/> 
 </div>
 
 -------
@@ -17,7 +17,7 @@ This repository contains the PyTorch implementation of the paper: [3-D Computed 
 
 ### RESULT  
 <div align=center>
-<img src="https://github.com/YuhangLiu98/SDCNN/blob/main/img/result1.png" width="800"/>   
-<img src="https://github.com/YuhangLiu98/SDCNN/blob/main/img/result2.png" width="800"/>   
-<img src="https://github.com/YuhangLiu98/SDCNN/blob/main/img/result4.png" width="800"/>   
+<img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/result1.png" width="800"/>   
+<img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/result2.png" width="800"/>   
+<img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/result3.png" width="800"/>   
 </div>
