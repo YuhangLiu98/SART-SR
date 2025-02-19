@@ -12,7 +12,8 @@ This repository contains the PyTorch implementation of the paper: 3-D Computed L
 
 ## Use
 
-1. run `PCB_POCS_L0.m` to reconstruct the phantom.
+1. You can package the above content and place it in the .\TIGRE-master\MATLAB\Demos\ directory to use it. The TIGRE-master can be downloaded from https://github.com/CERN/TIGRE.
+2. run `PCB_POCS_L0.m` to reconstruct the phantom.
 -------
 
 ### RESULT  
