@@ -12,7 +12,7 @@ This repository contains the PyTorch implementation of the paper: 3-D Computed L
 -------
 ## Installation
 
-SDCNN can be installed from source,
+SART-SR can be installed from source,
 ```shell
 git clone https://github.com/YuhangLiu98/SART-SR.git
 ```
