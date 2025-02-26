@@ -5,7 +5,7 @@ This repository contains the PyTorch implementation of the paper: 3-D Computed L
 ***************************************************************************
 ### Algorithm
 <div align=center>
-<img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/SART-SR.png" width="800"/> 
+<img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/SART-SR.png" width="400"/> 
 </div>
 
 
