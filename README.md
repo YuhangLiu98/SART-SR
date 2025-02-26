@@ -8,12 +8,29 @@ This repository contains the PyTorch implementation of the paper: 3-D Computed L
 <img src="https://github.com/YuhangLiu98/SART-SR/blob/main/img/SART-SR.png" width="800"/> 
 </div>
 
+
+-------
+## Installation
+
+SDCNN can be installed from source,
+```shell
+git clone https://github.com/YuhangLiu98/SART-SR.git
+```
+Then, [TIGRE](https://github.com/CERN/TIGRE) is required, for example,
+```shell script
+git clone https://github.com/CERN/TIGRE.git
+```
+Lastly, place "SART-SR" code in the directory of "TIGRE":
+```shell script
+.\TIGRE-master\MATLAB\Demos\
+```
+
 -------
 
 ## Use
-
-1. You can package the above content and place it in the .\TIGRE-master\MATLAB\Demos\ directory to use it. The TIGRE-master can be downloaded from https://github.com/CERN/TIGRE.
-2. run `PCB_POCS_L0.m` to reconstruct the phantom.
+```
+run `PCB_POCS_L0.m` to reconstruct the phantom.
+```
 -------
 
 ### RESULT  
