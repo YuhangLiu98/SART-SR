@@ -87,9 +87,7 @@ save(['MPCB_SR_',num2str(numProjs),'_',num2str(smooth_normType(1)),'：',num2str
 I = permute(I, [1 3 2]);
 imgPOCSL0 = permute(imgPOCSL0, [1 3 2]);
 N1 = 31;N2 = 128;N3=128; % It's for MPCB
-% N1 = 11;N2 = 228;N3=223; % It's for PCB
-% N1 = 26;N2 = 175;N3=175; % It's for Lu
-% length = 350;width = 350;height = 50;
+% N1 = 26;N2 = 175;N3=175; % It's for Flange
 figure(1),imshow(reshape(imgPOCSL0(:, : ,N1),length,width),[0 1]); axis off;%俯视图
 figure(2),imshow(reshape(imgPOCSL0(:, N2 ,:),length,height)',[0 1]); axis off;%正视图
 figure(3),imshow(reshape(imgPOCSL0(N3, : ,:),width,height)',[0 1]); axis off;%侧视图
