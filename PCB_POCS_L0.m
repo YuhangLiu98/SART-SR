@@ -37,7 +37,6 @@ if model == 1
         noise_projections=(projections);
     end
 elseif model == 2 
-    % model2
     % Define Geometry
     length = 256;width = 256;height = 75;
     geo=defaultGeometry();                     
@@ -55,11 +54,11 @@ elseif model == 2
     numProjs = 30;
     angles1=linspace(0,2*pi,numProjs);
     angles=[zeros(1,numProjs);angles1;ones(1,numProjs)*pi/180*(45)];
-    filename = "../../NEW/others/real_PCB_256_75_Nodefects.bin";
+    filename = "./MPCB.bin";
     fid=fopen(filename,'rb');
     eascan = fread(fid, length*width*height, 'float');
     I = single(reshape(eascan, [length,width,height]));
-    I = permute(I, [2 3 1]); % 本实验以读入图像转置后作为标准图像
+    I = permute(I, [2 3 1]); % 本实验以读入图像转置后作为标准图像，即[x,y,z]->[y,z,x]
     projections=Ax(I,geo,angles,'interpolated');    
     if NoisyCase == 1
         noise_projections=addCTnoise(projections,'Poisson',1e5);
