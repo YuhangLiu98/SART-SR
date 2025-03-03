@@ -1,19 +1,4 @@
 function [ f,errorL2,qualMeasOut ]  = POCS_L0_x_y_z(head,proj,geo,angles,maxiter,smooth_lambda,smooth_normType,u,varargin)
-% function [ f,errorL2,qualMeasOut ] = ASD_POCS(proj,geo,angles,maxiter,head,varargin)
-%ASD_POCS Solves the ASD_POCS total variation constrained image in 3D
-% tomography.
-%
-%   ASD_POCS(PROJ,GEO,ALPHA,NITER) solves the reconstruction problem
-%   using the projection data PROJ taken over ALPHA angles, corresponding
-%   to the geometry descrived in GEO, using NITER iterations.
-%
-%   ASD_POCS(PROJ,GEO,ALPHA,NITER,OPT,VAL,...) uses options and values for solving. The
-%   possible options in OPT are:
-%
-%
-%   'lambda':      Sets the value of the hyperparameter for the SART iterations.
-%                  Default is 1
-%
 %   'lambdared':   Reduction of lambda.Every iteration
 %                  lambda=lambdared*lambda. Default is 0.99
 %
@@ -40,23 +25,6 @@ function [ f,errorL2,qualMeasOut ]  = POCS_L0_x_y_z(head,proj,geo,angles,maxiter
 %                  'angularDistance': chooses the next subset with the
 %                                     biggest angular distance with the ones used.
 %--------------------------------------------------------------------------
-%--------------------------------------------------------------------------
-% This file is part of the TIGRE Toolbox
-%
-% Copyright (c) 2015, University of Bath and
-%                     CERN-European Organization for Nuclear Research
-%                     All rights reserved.
-%
-% License:            Open Source under BSD.
-%                     See the full license at
-%                     https://github.com/CERN/TIGRE/blob/master/LICENSE
-%
-% Contact:            tigre.toolbox@gmail.com
-% Codes:              https://github.com/CERN/TIGRE/
-% Coded by:           Ander Biguri and Manasavee Lohvithee
-%--------------------------------------------------------------------------
-
-
 
 %% parse inputs
 blocksize=1;
@@ -163,26 +131,26 @@ while ~stop_criteria %POCS
     
     % =========================================================================
     f0 = permute(f0,[1 3 2]); % [x,z,y]->[x,y,z]
-    f1 = TV_SB_denoising_1D_Lp(f0,1,smooth_lambda(1),smooth_normType(1)); % 在x方向做TVL0最小化
+    f1 = TV_SB_denoising_1D_Lp(f0,1,smooth_lambda(1),smooth_normType(1));     % x-direction
     f1 = permute(f1,[2 1 3]); % [x,y,z]->[y,x,z]
-    f2 = TV_SB_denoising_1D_Lp(f1,1,smooth_lambda(2),smooth_normType(2)); % 在y方向做TVL0最小化
+    f2 = TV_SB_denoising_1D_Lp(f1,1,smooth_lambda(2),smooth_normType(2));     % y-direction
     f2 = permute(f2,[2 1 3]); % [y,x,z]->[x,y,z]
-    f3 = TV_SB_denoising_1D_Lp_Dal(f2,1,smooth_lambda(3),smooth_normType(3)); % 在左上角方向做TVL1最小化
+    f3 = TV_SB_denoising_1D_Lp_Dal(f2,1,smooth_lambda(3),smooth_normType(3)); % left diagonal
     f3 = rot90(f3); % 逆时针旋转90°，以便在另一个对角线操作
-    f4 = TV_SB_denoising_1D_Lp_Dal(f3,1,smooth_lambda(4),smooth_normType(4)); % 在右上角方向做TVL1最小化
+    f4 = TV_SB_denoising_1D_Lp_Dal(f3,1,smooth_lambda(4),smooth_normType(4)); % right diagonal
     f4 = rot90(f4,3); %再次逆时针旋转270°，恢复成原样
     f4 = permute(f4,[1 3 2]); % [x,y,z]->[x,z,y] 
-    f = TV_SB_denoising_1D_Lp(f4,1,smooth_lambda(5),smooth_normType(5)); % 在z方向做TVL0最小化
+    f = TV_SB_denoising_1D_Lp(f4,1,smooth_lambda(5),smooth_normType(5));      % z-direction
     f0 = permute(f0,[1 3 2]);
     f = single(f);
     
-%     f=minimizeTAwTV(f,dtvg,ng,u);    %   This is the MATLAB CODE, the functions are sill in the library, but CUDA is used nowadays
-%     f=minimizeTV(f,dtvg,ng);    %   This is the MATLAB CODE, the functions are sill in the library, but CUDA is used nowadays
+    f=minimizeTAwTV(f,dtvg,ng,u); %   TAwTV, CUDA is used
+%     f=minimizeTV(f,dtvg,ng);    %   TV,    CUDA is used
     % ==========================================================================
-    % compute change by TV min
+    % compute change by TAwTV/TV min
     dg_vec=(f-f0);
     dg=im3Dnorm(dg_vec,'L2');
-    % if change in TV is bigger than the change in SART AND image error is still bigger than acceptable
+    % if change in TAwTV/TV is bigger than the change in SART AND image error is still bigger than acceptable
     if dg>rmax*dp && dd>epsilon
         dtvg=dtvg*alpha_red;
     end
