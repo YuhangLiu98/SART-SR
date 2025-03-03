@@ -45,10 +45,10 @@ elseif model == 2
     geo.DSO = 600;                              % Distance Source Origin        (mm)
     % Detector parameters
     geo.nDetector=[512; 512];					% number of pixels              (px)
-    geo.dDetector=[0.127; 0.127]; 					    % size of each pixel            (mm)
+    geo.dDetector=[0.127; 0.127]; 				% size of each pixel            (mm)
     geo.sDetector=geo.nDetector.*geo.dDetector; % total size of the detector    (mm)
     % Image parameters
-    geo.nVoxel=[length;height;width];                   % number of voxels              (vx)
+    geo.nVoxel=[length;height;width];           % number of voxels              (vx)
     geo.sVoxel=[length*0.127;height*0.127;width*0.127];        % total size of the image       (mm)
     geo.dVoxel=geo.sVoxel./geo.nVoxel;          % size of each voxel            (mm)
     % Load data and generate projections 
@@ -69,7 +69,7 @@ elseif model == 2
 else
     error(['parameter "' 'model' '" does not exist' ]);
 end
-%% ASD_POCS
+%% SART-SR
 SART_lambda=0.8;
 lambdared=0.9999;
 maxiter=300;
@@ -78,12 +78,12 @@ smooth_lambda = [0.001,0.001,0.001,0.001,0.0012];
 u = 0.2;
 ng = 4;
 qualmeas={'RMSE','CC','MSSIM','UQI'};
-% 在x、y、z方向分别作L0最小化（初值设为SART迭代10次的结果）
 [imgPOCSL0,errorL2, qualityPOCSL0]=POCS_L0_x_y_z(I,noise_projections,geo,angles,maxiter,smooth_lambda,smooth_normType,u,...
                       'TViter',ng,'lambda',SART_lambda,'lambda_red',lambdared,'verbose',1,'QualMeas',qualmeas); % less important.
 
 save(['MPCB_SR_',num2str(numProjs),'_',num2str(smooth_normType(1)),'：',num2str(smooth_lambda(1)),'_',num2str(smooth_normType(2)),'：',num2str(smooth_lambda(2)),'_',num2str(smooth_normType(3)),'：',num2str(smooth_lambda(3)),'_',num2str(smooth_normType(4)),'：',num2str(smooth_lambda(4)),...
     '_',num2str(smooth_normType(5)),'：',num2str(smooth_lambda(5)),'_',num2str(ng),'_',num2str(u),'_TAwTV.mat'],'I','imgPOCSL0','errorL2','qualityPOCSL0');
+
 %% result 
 I = permute(I, [1 3 2]);
 imgPOCSL0 = permute(imgPOCSL0, [1 3 2]);
