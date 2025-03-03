@@ -13,10 +13,10 @@ if model == 1
     geo.DSO = 600;                              % Distance Source Origin        (mm)
     % Detector parameters
     geo.nDetector=[512; 512];					% number of pixels              (px)
-    geo.dDetector=[0.127; 0.127]; 					    % size of each pixel            (mm)
+    geo.dDetector=[0.127; 0.127]; 				% size of each pixel            (mm)
     geo.sDetector=geo.nDetector.*geo.dDetector; % total size of the detector    (mm)
     % Image parameters
-    geo.nVoxel=[length;height;width];                    % number of voxels              (vx)
+    geo.nVoxel=[length;height;width];           % number of voxels              (vx)
     geo.sVoxel=[length*0.127;height*0.127;width*0.127];        % total size of the image       (mm)
     geo.dVoxel=geo.sVoxel./geo.nVoxel;          % size of each voxel            (mm)
     % Load data and generate projections 
@@ -31,6 +31,8 @@ if model == 1
     projections=Ax(I,geo,angles,'interpolated');   
     if NoisyCase == 1
         noise_projections=addCTnoise(projections,'Poisson',1e4);
+    elseif NoisyCase == 2
+        noise_projections=addCTnoise(projections,'Poisson',1e4,'Gaussian',[0,10]);
     else
         noise_projections=(projections);
     end
@@ -60,7 +62,7 @@ elseif model == 2
     I = permute(I, [2 3 1]); % 本实验以读入图像转置后作为标准图像
     projections=Ax(I,geo,angles,'interpolated');    
     if NoisyCase == 1
-        noise_projections=addCTnoise(projections);
+        noise_projections=addCTnoise(projections,'Poisson',1e5);
     else
         noise_projections=(projections);
     end
