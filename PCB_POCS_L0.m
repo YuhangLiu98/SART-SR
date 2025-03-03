@@ -4,7 +4,7 @@ close all;
 clc
 model = 2; % 1 for flange.bin;  2 for MPCB
 NoisyCase = 1;
-%% 
+%%
 if model == 1
     % Define Geometry
     length = 350;width = 350;height = 50;
@@ -68,22 +68,25 @@ elseif model == 2
 else
     error(['parameter "' 'model' '" does not exist' ]);
 end
-%% SART-SR
-SART_lambda=0.8;
-lambdared=0.9999;
-maxiter=300;
-smooth_normType = [-inf,-inf,-inf,-inf,-0.5];
-smooth_lambda = [0.001,0.001,0.001,0.001,0.0012];
-u = 0.2;
-ng = 4;
-qualmeas={'RMSE','CC','MSSIM','UQI'};
+
+%% SART-SR algorithm                               % Symbols in the paper
+SART_lambda=0.8;                                   % λ_SART
+lambdared=0.9999;                                  % κ_1
+maxiter=300;                                       % Max_iter
+smooth_normType = [-inf,-inf,-inf,-inf,-0.5];      % [p1,p2,p3,p4,p5]
+smooth_lambda = [0.001,0.001,0.001,0.001,0.0012];  % [α1,α2,α3,α4,α5]
+u = 0.2;                                           % τ
+ng = 4;                                            % TV_iter
+
+qualmeas={'RMSE','CC','MSSIM','UQI'};              % metrics name
 [imgPOCSL0,errorL2, qualityPOCSL0]=POCS_L0_x_y_z(I,noise_projections,geo,angles,maxiter,smooth_lambda,smooth_normType,u,...
                       'TViter',ng,'lambda',SART_lambda,'lambda_red',lambdared,'verbose',1,'QualMeas',qualmeas); % less important.
 
+% save original image, reconstructed image, RSEN, and metrics('RMSE','CC','MSSIM','UQI')
 save(['MPCB_SR_',num2str(numProjs),'_',num2str(smooth_normType(1)),'：',num2str(smooth_lambda(1)),'_',num2str(smooth_normType(2)),'：',num2str(smooth_lambda(2)),'_',num2str(smooth_normType(3)),'：',num2str(smooth_lambda(3)),'_',num2str(smooth_normType(4)),'：',num2str(smooth_lambda(4)),...
     '_',num2str(smooth_normType(5)),'：',num2str(smooth_lambda(5)),'_',num2str(ng),'_',num2str(u),'_TAwTV.mat'],'I','imgPOCSL0','errorL2','qualityPOCSL0');
 
-%% result 
+%% show results
 I = permute(I, [1 3 2]);
 imgPOCSL0 = permute(imgPOCSL0, [1 3 2]);
 N1 = 31;N2 = 128;N3=128; % It's for MPCB
@@ -95,15 +98,11 @@ figure(3),imshow(reshape(imgPOCSL0(N3, : ,:),width,height)',[0 1]); axis off;%�
 figure
 plot(qualityPOCSL0(1,:));
 title('Evolution of RMSE per iteration')
-
 figure
-plot(qualityPOCSL0(2,:));
-title('Evolution of CC per iteration')
-
+plot(qualityPOCSL0(2,:));title('Evolution of CC per iteration')
 figure
 plot(qualityPOCSL0(3,:));
 title('Evolution of MSSIM per iteration')
-
 figure
 plot(qualityPOCSL0(4,:));
 title('Evolution of UQI per iteration')
