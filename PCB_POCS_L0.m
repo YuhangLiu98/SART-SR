@@ -2,7 +2,7 @@
 clear;
 close all;
 clc
-model = 2; % 1 for Lujing.bin;  2 for MPCB
+model = 2; % 1 for flange.bin;  2 for MPCB
 NoisyCase = 1;
 %% 
 if model == 1
@@ -23,7 +23,7 @@ if model == 1
     numProjs = 30;
     angles1=linspace(0,2*pi,numProjs);
     angles=[zeros(1,numProjs);angles1;ones(1,numProjs)*pi/180*(45)];
-    filename = "Lujing.bin";
+    filename = "flange.bin";
     fid=fopen(filename,'rb');
     eascan = fread(fid, length*width*height, 'float');
     I = single(reshape(eascan, [length,width,height]));
