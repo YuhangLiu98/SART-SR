@@ -12,15 +12,17 @@ This repository contains the PyTorch implementation of the paper: 3-D Computed L
 -------
 ## Installation
 
-SART-SR can be installed from source,
+1. SART-SR can be installed from source,
 ```shell
 git clone https://github.com/YuhangLiu98/SART-SR.git
 ```
-Then, [TIGRE](https://github.com/CERN/TIGRE) is required, for example,
+2. Then, [TIGRE](https://github.com/CERN/TIGRE) is required, for example,
 ```shell script
 git clone https://github.com/CERN/TIGRE.git
 ```
-Lastly, place "SART-SR" code in the directory of "TIGRE":
+3. Then, the three files for TAwTV need to be placed in the corresponding folders, and compilation information for TAwTV should be added to the 'compile.m' file. Refer to TIGRE's TV for guidance.
+
+4. Lastly, place "SART-SR" code in the directory of "TIGRE":
 ```shell script
 .\TIGRE-master\MATLAB\Demos\
 ```
