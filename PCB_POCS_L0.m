@@ -4,7 +4,7 @@ close all;
 clc
 model = 2; % 1 for flange.bin;  2 for MPCB
 NoisyCase = 1;
-%%
+
 if model == 1
     % Define Geometry
     length = 350;width = 350;height = 50;
@@ -79,34 +79,34 @@ u = 0.2;                                           % τ
 ng = 4;                                            % TV_iter
 
 qualmeas={'RMSE','CC','MSSIM','UQI'};              % metrics name
-[imgPOCSL0,errorL2, qualityPOCSL0]=POCS_L0_x_y_z(I,noise_projections,geo,angles,maxiter,smooth_lambda,smooth_normType,u,...
+[img,errorL2, quality]=POCS_L0_x_y_z(I,noise_projections,geo,angles,maxiter,smooth_lambda,smooth_normType,u,...
                       'TViter',ng,'lambda',SART_lambda,'lambda_red',lambdared,'verbose',1,'QualMeas',qualmeas); % less important.
 
 % save original image, reconstructed image, RSEN, and metrics('RMSE','CC','MSSIM','UQI')
 save(['MPCB_SR_',num2str(numProjs),'_',num2str(smooth_normType(1)),'：',num2str(smooth_lambda(1)),'_',num2str(smooth_normType(2)),'：',num2str(smooth_lambda(2)),'_',num2str(smooth_normType(3)),'：',num2str(smooth_lambda(3)),'_',num2str(smooth_normType(4)),'：',num2str(smooth_lambda(4)),...
-    '_',num2str(smooth_normType(5)),'：',num2str(smooth_lambda(5)),'_',num2str(ng),'_',num2str(u),'_TAwTV.mat'],'I','imgPOCSL0','errorL2','qualityPOCSL0');
+    '_',num2str(smooth_normType(5)),'：',num2str(smooth_lambda(5)),'_',num2str(ng),'_',num2str(u),'_TAwTV.mat'],'I','img','errorL2','quality');
 
 %% show results
 I = permute(I, [1 3 2]);
-imgPOCSL0 = permute(imgPOCSL0, [1 3 2]);
+img = permute(img, [1 3 2]);
 N1 = 31;N2 = 128;N3=128; % It's for MPCB
 % N1 = 26;N2 = 175;N3=175; % It's for Flange
-figure(1),imshow(reshape(imgPOCSL0(:, : ,N1),length,width),[0 1]); axis off;%俯视图
-figure(2),imshow(reshape(imgPOCSL0(:, N2 ,:),length,height)',[0 1]); axis off;%正视图
-figure(3),imshow(reshape(imgPOCSL0(N3, : ,:),width,height)',[0 1]); axis off;%侧视图
+figure(1),imshow(reshape(img(:, : ,N1),length,width),[0 1]); axis off;%俯视图
+figure(2),imshow(reshape(img(:, N2 ,:),length,height)',[0 1]); axis off;%正视图
+figure(3),imshow(reshape(img(N3, : ,:),width,height)',[0 1]); axis off;%侧视图
 
 figure
-plot(qualityPOCSL0(1,:));
+plot(quality(1,:));
 title('Evolution of RMSE per iteration')
 figure
-plot(qualityPOCSL0(2,:));title('Evolution of CC per iteration')
+plot(quality(2,:));title('Evolution of CC per iteration')
 figure
-plot(qualityPOCSL0(3,:));
+plot(quality(3,:));
 title('Evolution of MSSIM per iteration')
 figure
-plot(qualityPOCSL0(4,:));
+plot(quality(4,:));
 title('Evolution of UQI per iteration')
  
-fprintf('PIBR-SB \n');
-disp(['RMSE:', num2str(qualityPOCSL0(1,end)),' RSEN:',num2str(errorL2(1,end)) , ', MSSIM:', num2str(qualityPOCSL0(3,end)),  ...
-     ', CC:', num2str(qualityPOCSL0(2,end)),', UQI:', num2str(qualityPOCSL0(4,end))]);
+fprintf('SART-SR \n');
+disp(['RMSE:', num2str(quality(1,end)),' RSEN:',num2str(errorL2(1,end)) , ', MSSIM:', num2str(quality(3,end)),  ...
+     ', CC:', num2str(quality(2,end)),', UQI:', num2str(quality(4,end))]);
